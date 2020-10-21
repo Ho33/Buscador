@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationDefaultAccuracyReduced</key>
+	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -58,5 +67,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>clientId</key>
+	<string>iM8pE8kO0kY5lO4xV6bD3hJ0rL0jM3mH6fD6vQ1bO1dT8uH1wW</string>
+	<key>clientSecret</key>
+	<string>483b2360-5887-4c5e-a134-78c3f8af1d26</string>
+	<key>urlAnonymus</key>
+	<dict>
+		<key>mallUrl</key>
+		<string>https://api.cuali.carrefour.es/marketing-digital/cuali/malls-anonymous</string>
+		<key>mallsByCity</key>
+		<string>https://api.cuali.carrefour.es/marketing-digital/cuali/malls-anonymous/mallsByCity</string>
+	</dict>
 </dict>
 </plist>
