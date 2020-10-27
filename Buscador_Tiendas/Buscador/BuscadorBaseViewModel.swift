@@ -41,10 +41,10 @@ class BuscadorBaseViewModel: ObservableObject{
         
         if let newRegion = region{
             params = [
-                "quadrantFirstLatitude": "\(newRegion.regionPoints["NWCoord"]?.latitude ?? 0.0)",
-                "quadrantFirstLongitude": "\(newRegion.regionPoints["NWCoord"]?.longitude ?? 0.0)",
-                "quadrantSecondLatitude": "\(newRegion.regionPoints["SECoord"]?.latitude ?? 0.0)",
-                "quadrantSecondLongitude": "\(newRegion.regionPoints["SECoord"]?.longitude ?? 0.0)"
+                "quadrantFirstLatitude": "\(newRegion.regionPoints["NWCoord"] ?? 0.0)",
+                "quadrantFirstLongitude": "\(newRegion.regionPoints["NWCoord"] ?? 0.0)",
+                "quadrantSecondLatitude": "\(newRegion.regionPoints["SECoord"] ?? 0.0)",
+                "quadrantSecondLongitude": "\(newRegion.regionPoints["SECoord"] ?? 0.0)"
             ]
             params["numTopNearest"] = "\(newRegion.limits)"
             params["size"] = "\(newRegion.limits)"
