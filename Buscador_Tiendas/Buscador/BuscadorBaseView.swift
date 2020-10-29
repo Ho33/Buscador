@@ -14,13 +14,13 @@ import Combine
 class Region{
     var latitude: Double = 0
     var longitude: Double = 0
-    var regionPoints: [String:CLLocationDegrees] = [:]
+    var regionPoints: [String:CLLocationCoordinate2D] = [:]
     var limits: Int = 0
     
     init(){}
     init(latitude: Double,
          longitude: Double,
-         regionPoints: [String:CLLocationDegrees],
+         regionPoints: [String:CLLocationCoordinate2D],
          limits: Int){
         self.latitude = latitude
         self.longitude = longitude
@@ -41,7 +41,7 @@ struct BuscadorBaseView: View {
     @State var tracking : MapUserTrackingMode = .follow
     @State var coordinateRegion : MKCoordinateRegion = MKCoordinateRegion.init()
     @State var tempStores : [Store] = []
-    
+    @State var regionActual : MKCoordinateRegion?
     var body: some View {
         ZStack{
             TextField("Introduce Codigo Postal o Localidad", text : self.$search, onEditingChanged : {
@@ -53,7 +53,7 @@ struct BuscadorBaseView: View {
             .padding()
         }
         VStack {
-            Map(coordinateRegion: $coordinateRegion, interactionModes: .all, showsUserLocation: true, /*userTrackingMode: $tracking ,*/
+            Map(coordinateRegion: $coordinateRegion, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking,
                 annotationItems: storeMarker) { place in
                 MapAnnotation(coordinate: place.coordinate){
                     Image(getIconForBuscadorMapa(mallType: place.mallType))
@@ -63,9 +63,6 @@ struct BuscadorBaseView: View {
             }
         }
         
-        .onReceive([self.coordinateRegion].publisher.first()){ value in
-            self.viewModel.getAllMalls(centerCoordinates: CLLocation(latitude: value.center.latitude, longitude: value.center.longitude))
-        }
         
         .onReceive(self.viewModel.$tiendas){ value in
             if self.tempStores != value {
@@ -85,15 +82,44 @@ struct BuscadorBaseView: View {
         .onReceive(self.managerDelegate.$location) { value in
             if value != nil {
                 self.coordinateRegion = getCoordinateRegion(location: value)
-                self.viewModel.getAllMalls(
-                    centerCoordinates: CLLocation(latitude: value!.coordinate.latitude, longitude: value!.coordinate.longitude))
+            }
+        }
+        .onReceive([self.$coordinateRegion].publisher.first()){ value in
+            
+            if self.regionActual?.center.latitude != value.center.latitude.wrappedValue && self.regionActual?.span.latitudeDelta != value.span.latitudeDelta.wrappedValue{
+                
+                self.regionActual = value.wrappedValue
+                
+                let centerLat: Double = value.center.latitude.wrappedValue
+                
+                let centerLng: Double = value.center.longitude.wrappedValue
+                
+                let spanLat: Double = value.span.latitudeDelta.wrappedValue
+                
+                let spanLng: Double = value.span.longitudeDelta.wrappedValue
+                
+                if centerLat != 0.0 && centerLng != 0.0{
+                    
+                    self.viewModel.getAllMalls(
+                        centerCoordinates: CLLocation(latitude: centerLat, longitude: centerLng),region: Region(latitude: centerLat, longitude: centerLng, regionPoints: getFourBoundsMap(centerLat: centerLat, centerLng: centerLng, spanLat: spanLat, spanLng: spanLng) , limits: 500
+                        ))
+                    print("NEW REGION: \(value)")
+                    
+                    print("NW: \(centerLat - (spanLat/2)), \(centerLng + (spanLng/2))")
+                    
+                }
             }
         }
     }
-
+    
     func getCoordinateRegion(location: CLLocation?) -> MKCoordinateRegion {
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location?.coordinate.latitude ?? 40.41317, longitude: location?.coordinate.longitude ?? -3.68307), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
         return region
+    }
+    func getFourBoundsMap(centerLat : Double, centerLng: Double, spanLat: Double,  spanLng: Double) -> [String:CLLocationCoordinate2D]{
+        let NWCoord = CLLocationCoordinate2D(latitude: centerLat + spanLat/2, longitude: centerLng - (spanLng/2))
+        let SECoord = CLLocationCoordinate2D(latitude: centerLat - spanLat/2, longitude: centerLng + (spanLng/2))
+        return ["NWCoord": NWCoord, "SECoord": SECoord]
     }
 }
 
@@ -103,21 +129,3 @@ struct BuscadorBaseView_Previews: PreviewProvider {
     }
 }
 
-extension Array where Element == MKMapPoint {
-    func mapRect() -> MKMapRect? {
-        guard count > 0 else { return nil }
-
-        let xs = map { $0.x }
-        let ys = map { $0.y }
-
-        let west = xs.min()!
-        let east = xs.max()!
-        let width = east - west
-
-        let south = ys.min()!
-        let north = ys.max()!
-        let height = north - south
-
-        return MKMapRect(x: west, y: south, width: width, height: height)
-    }
-}
