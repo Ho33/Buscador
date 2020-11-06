@@ -48,7 +48,8 @@ struct MallsByCity: Codable{
     var mallGroupList: [GroupedMalls]?
 }
 
-struct GroupedMalls: Codable{
+struct GroupedMalls: Codable , Hashable {
+
     var latitude: Double?
     var longitude: Double?
     var city: String?

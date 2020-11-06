@@ -19,8 +19,8 @@ class BuscadorBaseViewModel: ObservableObject{
     
     var cancelable: Cancellable?
     
-    func generarLlamadaGetGroupedMalls() -> AnyPublisher<MallsByCity,Error> {
-        var params: [String:String] = [:]
+    func generarLlamadaGetGroupedMalls() -> AnyPublisher<MallsByCity,Error> {
+        let params: [String:String] = [:]
         
 //        params["mallTypeList"] = FiltrosBuscador.getStringStoresFromFilters(array: FiltrosBuscador.getFilterSearchStore(filtrosAplicables: filtrosAplicables))
         
@@ -110,6 +110,4 @@ class BuscadorBaseViewModel: ObservableObject{
             self.grupos = groupedMalls.mallGroupList ?? []
         })
     }
-    
-    
 }

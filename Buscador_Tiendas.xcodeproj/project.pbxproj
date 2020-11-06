@@ -23,6 +23,7 @@
 		847B987A253F024100F53B0B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B9879253F024100F53B0B /* Store.swift */; };
 		9360216925403080008DB4EE /* StoreMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9360216825403080008DB4EE /* StoreMarker.swift */; };
 		9360217125405654008DB4EE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9360217025405654008DB4EE /* LocationManager.swift */; };
+		936712CB25555C02008DC5B2 /* StoreRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936712CA25555C02008DC5B2 /* StoreRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		847B9879253F024100F53B0B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		9360216825403080008DB4EE /* StoreMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMarker.swift; sourceTree = "<group>"; };
 		9360217025405654008DB4EE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		936712CA25555C02008DC5B2 /* StoreRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 				847B985B253EFF2B00F53B0B /* BuscadorBaseView.swift */,
 				847B9863253EFF6500F53B0B /* BuscadorBaseViewModel.swift */,
 				9360217025405654008DB4EE /* LocationManager.swift */,
+				936712CA25555C02008DC5B2 /* StoreRowView.swift */,
 			);
 			path = Buscador;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				847B985C253EFF2B00F53B0B /* BuscadorBaseView.swift in Sources */,
 				847B982C253EFE7D00F53B0B /* ContentView.swift in Sources */,
 				9360216925403080008DB4EE /* StoreMarker.swift in Sources */,
+				936712CB25555C02008DC5B2 /* StoreRowView.swift in Sources */,
 				9360217125405654008DB4EE /* LocationManager.swift in Sources */,
 				847B986A253EFFAF00F53B0B /* ApiManager.swift in Sources */,
 				847B9864253EFF6500F53B0B /* BuscadorBaseViewModel.swift in Sources */,
