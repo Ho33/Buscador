@@ -21,6 +21,7 @@
 		847B986F253EFFDC00F53B0B /* ApiResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B986E253EFFDC00F53B0B /* ApiResources.swift */; };
 		847B9874253F012B00F53B0B /* UrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B9873253F012B00F53B0B /* UrlProtocol.swift */; };
 		847B987A253F024100F53B0B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B9879253F024100F53B0B /* Store.swift */; };
+		9301C5E12562711A00BC66BF /* StoreDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301C5E02562711A00BC66BF /* StoreDetailsView.swift */; };
 		9360216925403080008DB4EE /* StoreMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9360216825403080008DB4EE /* StoreMarker.swift */; };
 		9360217125405654008DB4EE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9360217025405654008DB4EE /* LocationManager.swift */; };
 		936712CB25555C02008DC5B2 /* StoreRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936712CA25555C02008DC5B2 /* StoreRowView.swift */; };
@@ -64,6 +65,7 @@
 		847B986E253EFFDC00F53B0B /* ApiResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResources.swift; sourceTree = "<group>"; };
 		847B9873253F012B00F53B0B /* UrlProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlProtocol.swift; sourceTree = "<group>"; };
 		847B9879253F024100F53B0B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		9301C5E02562711A00BC66BF /* StoreDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailsView.swift; sourceTree = "<group>"; };
 		9360216825403080008DB4EE /* StoreMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMarker.swift; sourceTree = "<group>"; };
 		9360217025405654008DB4EE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		936712CA25555C02008DC5B2 /* StoreRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreRowView.swift; sourceTree = "<group>"; };
@@ -160,10 +162,10 @@
 		847B985A253EFF1B00F53B0B /* Buscador */ = {
 			isa = PBXGroup;
 			children = (
+				9301C5EE25627D1B00BC66BF /* Views */,
 				847B985B253EFF2B00F53B0B /* BuscadorBaseView.swift */,
 				847B9863253EFF6500F53B0B /* BuscadorBaseViewModel.swift */,
 				9360217025405654008DB4EE /* LocationManager.swift */,
-				936712CA25555C02008DC5B2 /* StoreRowView.swift */,
 			);
 			path = Buscador;
 			sourceTree = "<group>";
@@ -185,6 +187,15 @@
 				9360216825403080008DB4EE /* StoreMarker.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		9301C5EE25627D1B00BC66BF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				936712CA25555C02008DC5B2 /* StoreRowView.swift */,
+				9301C5E02562711A00BC66BF /* StoreDetailsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				847B986F253EFFDC00F53B0B /* ApiResources.swift in Sources */,
+				9301C5E12562711A00BC66BF /* StoreDetailsView.swift in Sources */,
 				847B9874253F012B00F53B0B /* UrlProtocol.swift in Sources */,
 				847B9828253EFE7D00F53B0B /* AppDelegate.swift in Sources */,
 				847B987A253F024100F53B0B /* Store.swift in Sources */,
@@ -498,6 +510,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Buscador_Tiendas/Preview Content\"";
+				DEVELOPMENT_TEAM = 37V3738CQM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Buscador_Tiendas/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -518,6 +531,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Buscador_Tiendas/Preview Content\"";
+				DEVELOPMENT_TEAM = 37V3738CQM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Buscador_Tiendas/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

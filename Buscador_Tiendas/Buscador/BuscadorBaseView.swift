@@ -46,10 +46,9 @@ struct BuscadorBaseView: View {
     @State private var coordinateRegion : MKCoordinateRegion = MKCoordinateRegion.init()
     @State private var regionActual : MKCoordinateRegion?
     @State private var showStoreList: Bool = false
-
+    
     
     var body: some View {
-        
         NavigationView {
             VStack{
                 VStack{
@@ -67,7 +66,6 @@ struct BuscadorBaseView: View {
                                 Text("LISTADO").foregroundColor(self.showStoreList ? .blue : .gray)
                                 
                             })
-                            
                         }.font(.system(size: 15))
                         .foregroundColor(.gray)
                         .frame(width: 180, height: 40, alignment: .center)
@@ -99,7 +97,7 @@ struct BuscadorBaseView: View {
                     HStack{
                         Spacer()
                         Button(action: {
-                           //vista para filtrar
+                            //vista para filtrar
                         }, label: {
                             Image(systemName: "slider.horizontal.3").font(.system(size: 13))
                             Text("Filtrar").font(.system(size: 13))
@@ -136,14 +134,13 @@ struct BuscadorBaseView: View {
                         
                         ScrollView (.vertical, showsIndicators: false, content: {
                             ForEach(self.annotationsToShow) { store in
+                                
                                 if store.name != "" {
-                                    StoreRowView(item: store).padding(.bottom,-8)
+                                    StoreRowView(item: store, rowSelected: false).padding(.bottom,-8)
                                 }
-                             }
+                            }
                         }).padding(EdgeInsets(top: 9, leading: 10, bottom: 0, trailing: 10))
-                        
                     }
-                    
                 }
             }
             .navigationBarTitle("Buscar tiendas", displayMode: .inline)
@@ -155,28 +152,23 @@ struct BuscadorBaseView: View {
         .onReceive([self.$coordinateRegion].publisher.first()){ value in
             
             if self.regionActual?.center.latitude != value.center.latitude.wrappedValue && self.regionActual?.span.latitudeDelta != value.span.latitudeDelta.wrappedValue{
-
+                
                 self.regionActual = value.wrappedValue
-
+                
                 let centerLat: Double = value.center.latitude.wrappedValue
-
+                
                 let centerLng: Double = value.center.longitude.wrappedValue
-
+                
                 let spanLat: Double = value.span.latitudeDelta.wrappedValue
-
+                
                 let spanLng: Double = value.span.longitudeDelta.wrappedValue
-
+                
                 print(self.regionActual!.span.latitudeDelta)
-
-                        self.viewModel.getAllMalls(
-                        centerCoordinates: CLLocation(latitude: centerLat, longitude: centerLng),region: Region(latitude: centerLat, longitude: centerLng, regionPoints: getFourBoundsMap(centerLat: centerLat, centerLng: centerLng, spanLat: spanLat, spanLng: spanLng) , limits: 500
-                        ))
-                    self.changePlacemarks()
-
-//                    print("NEW REGION: \(value)")
-//
-//                    print("NW: \(centerLat - (spanLat/2)), \(centerLng + (spanLng/2))")
-
+                
+                self.viewModel.getAllMalls(
+                    centerCoordinates: CLLocation(latitude: centerLat, longitude: centerLng),region: Region(latitude: centerLat, longitude: centerLng, regionPoints: getFourBoundsMap(centerLat: centerLat, centerLng: centerLng, spanLat: spanLat, spanLng: spanLng) , limits: 500
+                    ))
+                self.changePlacemarks()
             }
         }
         .onReceive(self.managerDelegate.$location) { value in
@@ -192,7 +184,7 @@ struct BuscadorBaseView: View {
                     for item in tiendasParaMostrar {
                         print(item.distance!)
                         nuevasTiendas
-                            .append(StoreMarker(name: item.name!, latitude: item.latitude!, longitude: item.longitude!, mallType: item.mallType!,city: item.city! , distance: item.distance!, postalCode: item.postalCode!, address: item.address!))
+                            .append(StoreMarker(name: item.name!, latitude: item.latitude!, longitude: item.longitude!, mallType: item.mallType!,city: item.city! , distance: item.distance!, postalCode: item.postalCode!, address: item.address!,  timetable : item.timetable!, festiveTimetable : item.festiveTimetable! , wifiActive : item.wifiActive!, carrefourPayActive: item.carrefourPayActive!, storeServices: item.storeServices!))
                     }
                     self.storeMarker = nuevasTiendas
                     print("\(tiendasParaMostrar.count)")
@@ -217,6 +209,7 @@ struct BuscadorBaseView: View {
             self.annotationsToShow = self.groupMarker
         }
     }
+    
     func removeRepeatAnnotation(){
         var storeTemp = StoreMarker.init()
         var storesTemp : [StoreMarker] = []
@@ -251,7 +244,7 @@ struct BuscadorBaseView: View {
     
     struct NavigationConfigurator: UIViewControllerRepresentable {
         var configure: (UINavigationController) -> Void = { _ in }
-
+        
         func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
             UIViewController()
         }
