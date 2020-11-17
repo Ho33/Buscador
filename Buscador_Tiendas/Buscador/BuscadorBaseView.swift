@@ -49,6 +49,7 @@ struct BuscadorBaseView: View {
     
     
     var body: some View {
+        GeometryReader { geometry in
         NavigationView {
             VStack{
                 VStack{
@@ -72,10 +73,10 @@ struct BuscadorBaseView: View {
                     }.padding(EdgeInsets(top: 5, leading: 0, bottom: -5, trailing: 0))
                     
                     HStack{
-                        Rectangle().frame(width: 180, height: 3)
+                        Rectangle().frame(width: geometry.size.width/2 , height: 3)
                             .foregroundColor(Color.blue)
-                            .offset(x: self.showStoreList ? 88 : -88, y: -7).animation(.spring())
-                    }
+                            .offset(x: self.showStoreList ? geometry.size.width/3.5 : -geometry.size.width/3.5, y: -7).animation(.spring())
+                    }.padding(EdgeInsets(top: 0, leading: self.showStoreList ? 0 : 50, bottom: 0, trailing: self.showStoreList ? 50 : 0))
                 }
                 VStack{
                     HStack{
@@ -121,7 +122,7 @@ struct BuscadorBaseView: View {
                                 }
                             }
                         }
-                    }.padding(.bottom, self.showStoreList ? 10:0)
+                    }.padding(.bottom, 10)
                 }.overlay(
                     RoundedRectangle(cornerRadius: 3).stroke(Color(.gray), lineWidth: 0.3)
                 )
@@ -148,6 +149,7 @@ struct BuscadorBaseView: View {
                 nc.navigationBar.barTintColor = .blue
                 nc.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
             })
+        }
         }
         .onReceive([self.$coordinateRegion].publisher.first()){ value in
             
@@ -259,7 +261,11 @@ struct BuscadorBaseView: View {
 struct BuscadorBaseView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BuscadorBaseView()
+            BuscadorBaseView().previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
+                .previewDisplayName("iPhone XS Max")
+            
+            BuscadorBaseView().previewDevice(PreviewDevice(rawValue: "iPhone 7"))
+                .previewDisplayName("iPhone 7")
         }
     }
 }

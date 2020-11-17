@@ -18,11 +18,11 @@ struct StoreDetailsView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-       
-            ScrollView{
+        GeometryReader { geometry in
+            ScrollView (showsIndicators: false, content: {
                 VStack {
                     StoreRowView(item: store, rowSelected: true)
-                    buttonDirectionToGo
+                    buttonDirectionToGo(geometry: geometry)
                     VStack {
                         direction.padding(.bottom,-9)
                         mapStoreSelected.allowsHitTesting(false)
@@ -44,25 +44,25 @@ struct StoreDetailsView: View {
                         Divider().padding(EdgeInsets(top: -10, leading: 17, bottom: 30, trailing: 17))
                     }
                     .border(Color.gray, width: 0.4)
-                    .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
-                    
+                    .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                 }
-                .onAppear {
-                    self.location = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude:store.latitude!, longitude: store.longitude!), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
-                    self.localizedStore.append(store)
-                }
-            }.navigationBarTitle(Text("Tienda"), displayMode: .inline)
-            .edgesIgnoringSafeArea(.bottom)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "control").rotationEffect(Angle(degrees: -90))
-                            .foregroundColor(.white)
-                    }.frame(width: 30, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             })
+            .onAppear {
+                self.location = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude:store.latitude!, longitude: store.longitude!), span: MKCoordinateSpan(latitudeDelta: 0.07, longitudeDelta: 0.07))
+                self.localizedStore.append(store)
+            }
+        }.navigationBarTitle(Text("Tienda"), displayMode: .inline)
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+                                Button(action: {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }) {
+                                    HStack {
+                                        Image(systemName: "control").rotationEffect(Angle(degrees: -90))
+                                            .foregroundColor(.white)
+                                    }.frame(width: 30, height: 30, alignment: .center)
+                                })
     }
     
     private var direction : some View {
@@ -73,6 +73,7 @@ struct StoreDetailsView: View {
                         Text("DIRECCIÓN").foregroundColor(.gray)
                         Spacer()
                     }.font(.system(size: capitalFontSize))
+                    .padding(.bottom,1)
                     Group{
                         HStack{
                             Text(store.address!)
@@ -85,11 +86,10 @@ struct StoreDetailsView: View {
                         }
                     }.foregroundColor(.blue)
                     .font(.system(size: normalFontSize))
-                }.frame(width: 325, height: 20, alignment: .center)
+                }
                 
             }
             .padding()
-            
             Spacer()
         }
     }
@@ -103,7 +103,7 @@ struct StoreDetailsView: View {
                         .scaledToFit()
                 }
             }
-        }.frame(width: .infinity, height: 200)
+        }.frame(height: 200)
     }
     
     private var schedouleInfo : some View {
@@ -116,34 +116,32 @@ struct StoreDetailsView: View {
                     }.font(.system(size: capitalFontSize))
                     Group{
                         HStack {
-                            Text("Laborales: " + store.timetable!)
+                            Text("Laborales: " + store.timetable!).fixedSize(horizontal: false, vertical: true)
                             Spacer()
                         }
                         
                         HStack {
-                            Text("Festivos: " + store.festiveTimetable!)
+                            Text("Festivos: " + store.festiveTimetable!).fixedSize(horizontal: false, vertical: true)
                             Spacer()
                         }
                     }.font(.system(size: normalFontSize))
-                }.frame(width: 325, height: 20, alignment: .center)
-                
-                
+                }.padding(.bottom,1)
             }.padding()
             Spacer()
         }
     }
     
-    private var buttonDirectionToGo : some View {
+    private func buttonDirectionToGo (geometry : GeometryProxy) -> some View {
         Button(action: {
                 let url = URL(string: "http://maps.apple.com/maps?saddr=&daddr=\(store.latitude ?? 0),\(store.longitude ?? 0)")
                 UIApplication.shared.open(url!)}, label: {
-            Text("Cómo llegar")
-                .frame(width: 364, height: 45, alignment: .center)
-                .background(
-                    RoundedRectangle(cornerRadius: 2)
-                        .stroke(lineWidth: 2)
-                )
-        })
+                    Text("Cómo llegar")
+                        .frame(width: geometry.size.width/1.04, height: geometry.size.height/16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 2)
+                                .stroke(lineWidth: 2)
+                        )
+                })
     }
     
     private var availableWifi : some View {
@@ -157,9 +155,7 @@ struct StoreDetailsView: View {
             Text("Wifi")
                 .font(.system(size: normalFontSize))
                 .padding(.leading,5)
-            
         }.padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
-        
     }
     
     private var price : some View {
@@ -172,7 +168,6 @@ struct StoreDetailsView: View {
             Text("Ver precio")
                 .font(.system(size: normalFontSize))
                 .padding(.leading,5)
-            
         }.padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
     }
     
@@ -181,26 +176,27 @@ struct StoreDetailsView: View {
             Text(self.store.carrefourPayActive! ? "Carrefour Pay disponible" : "Carrefour Pay no disponible")
             Spacer()
         }.font(.system(size: normalFontSize))
-        .frame(width: 325, height: 20, alignment: .center)
-        .padding(EdgeInsets(top: 0, leading: -27, bottom: 10, trailing: 0))
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
     }
     
     private var storeServices : some View {
         VStack{
-            HStack{
-                Text("OTROS SERVICIOS").foregroundColor(.gray)
-                Spacer()
-            }.frame(width: 350, height: 17, alignment: .center)
-            .font(.system(size: capitalFontSize))
-            VStack{
-                ForEach(self.store.storeServices! , id: \.self) { service in
-                    HStack{
-                        Text("\(service)")
-                        Spacer()
-                    }.frame(width: 350, height: 20, alignment: .center)
-                    .font(.system(size: normalFontSize))
+            Group{
+                HStack{
+                    Text("OTROS SERVICIOS").foregroundColor(.gray)
+                    Spacer()
                 }
-            }
+                .font(.system(size: capitalFontSize))
+                VStack{
+                    ForEach(self.store.storeServices! , id: \.self) { service in
+                        HStack{
+                            Text("\(service)")
+                            Spacer()
+                        }
+                        .font(.system(size: normalFontSize))
+                    }
+                }
+            }.padding(.bottom,1)
             Spacer()
         }
         .padding(EdgeInsets(top:0, leading: 17, bottom: 10, trailing: 0))
@@ -210,7 +206,14 @@ struct StoreDetailsView: View {
 
 struct StoreDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        StoreDetailsView(store: StoreMarker(name: "Carrefour test", latitude: 0, longitude: 0, mallType: "asd", city: "Madrid", distance: 0, postalCode: "06200", address: "C/pedro", timetable: "123", festiveTimetable: "321", wifiActive: true, carrefourPayActive: true, storeServices: ["Entrega","salida"]))
+        
+        Group {
+            StoreDetailsView(store: StoreMarker(name: "Carrefour test", latitude: 0, longitude: 0, mallType: "asd", city: "Madrid", distance: 0, postalCode: "06200", address: "C/pedro", timetable: "123", festiveTimetable: "321", wifiActive: true, carrefourPayActive: true, storeServices: ["Entrega","salida"])).previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
+                .previewDisplayName("iPhone XS Max")
+            
+            StoreDetailsView(store: StoreMarker(name: "Carrefour test", latitude: 0, longitude: 0, mallType: "asd", city: "Madrid", distance: 0, postalCode: "06200", address: "C/pedro", timetable: "123", festiveTimetable: "321", wifiActive: true, carrefourPayActive: true, storeServices: ["Entrega","salida"])).previewDevice(PreviewDevice(rawValue: "iPhone 7"))
+                .previewDisplayName("iPhone 7")
+        }
     }
 }
 

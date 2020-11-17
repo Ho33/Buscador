@@ -9,10 +9,10 @@ import SwiftUI
 
 struct StoreRowView: View {
     var item : StoreMarker
-    var rowSelected : Bool = false
+    @State var rowSelected : Bool = false
     
     var body: some View {
-        NavigationLink(destination: StoreDetailsView(store : self.item)) {
+        NavigationLink(destination: StoreDetailsView(store : self.item), isActive : $rowSelected) {
             HStack{
                 Image(getIconForInStoreLocalized(mallType: self.item.mallType))
                     .frame(width: 60, height: 20, alignment: .center)
@@ -21,17 +21,21 @@ struct StoreRowView: View {
                     HStack{
                         Text(self.item.name)
                         Spacer()
-                    }
-                    HStack{
-                        Text(self.item.address!).font(.system(size: 12))
-                        Spacer()
-                    }
-                    HStack{
-                        Text(self.item.postalCode!).font(.system(size: 12))
-                        Text(self.item.city!).font(.system(size: 12))
-                        Spacer()
-                    }
+                    }.padding(.trailing,20)
+                    Group {
+                        HStack{
+                            Text(self.item.address!)
+                            Spacer()
+                        }
+                        HStack{
+                            Text(self.item.postalCode!)
+                            Text(self.item.city!)
+                            Spacer()
+                        }
+                    }.font(.system(size: 12))
                 }.padding(.leading,-8)
+                .lineLimit(1)
+                
                 Spacer()
                 VStack{
                 ZStack{
@@ -41,9 +45,9 @@ struct StoreRowView: View {
                     Image(systemName: "star.square").resizable().opacity(0.3)
                 }.frame(width: 25, height: 25, alignment: .top)
                 .padding(.bottom,5)
-                }.padding()
-            }.frame(width: self.rowSelected ? 380 : 355, height: 60, alignment: .center)
-            .padding(EdgeInsets(top: self.rowSelected ? 8 : 0, leading: 0, bottom: self.rowSelected ? 8 : 0, trailing: 0))
+                }
+            }
+            .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 15))
             .border(Color.gray ,width: 0.3)
             
         }.buttonStyle(PlainButtonStyle())
@@ -53,6 +57,6 @@ struct StoreRowView: View {
 
 struct StoreRowView_Previews: PreviewProvider {
     static var previews: some View {
-        StoreRowView(item: StoreMarker(name: "Carrefour test", latitude: 0, longitude: 0, mallType: "asd", city: "Madrid", distance: 0, postalCode: "06200", address: "C/pedro", timetable: "123", festiveTimetable: "321", wifiActive: true, carrefourPayActive: true, storeServices: ["Entrega","salida"]), rowSelected: true)
+        StoreRowView(item: StoreMarker(name: "Carrefour testtttttttttttttttttttttttttttttttttttttttttttttttttttt", latitude: 0, longitude: 0, mallType: "asd", city: "Madrid", distance: 0, postalCode: "06200", address: "C/pedro", timetable: "123", festiveTimetable: "321", wifiActive: true, carrefourPayActive: true, storeServices: ["Entrega","salida"]), rowSelected: true)
     }
 }
